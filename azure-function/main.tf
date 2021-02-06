@@ -82,6 +82,22 @@ resource "azurerm_function_app" "example" {
   storage_account_access_key = azurerm_storage_account.example.primary_access_key
   os_type                    = "linux"
   version                    = "~3"
+   site_config {
+    linux_fx_version = "PYTHON|3.7"
+    use_32_bit_worker_process = false
+  }
+  identity {
+    type = "SystemAssigned"
+  }
+
+   app_settings = {
+        https_only = true
+        FUNCTIONS_WORKER_RUNTIME = "node"
+        WEBSITE_NODE_DEFAULT_VERSION = "~10"
+        FUNCTIONS_WORKER_RUNTIME = "python"
+        AzureWebJobsSecretStorageType="files"
+    }
+
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "example" {
